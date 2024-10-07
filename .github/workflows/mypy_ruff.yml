@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, Linux, X64, github-actions-1]
+    runs-on: github-actions-1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
