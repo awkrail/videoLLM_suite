@@ -1,0 +1,32 @@
+name: Run pytest
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: github-actions-1
+    container: python:3.9-slim
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run dependency libraries
+        run: |
+          apt-get update
+          apt-get upgrade
+          apt-get install -y ffmpeg git
+      
+      - name: Run dependency libraries
+        run: |
+          pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
+          pip install ftfy regex tqdm
+          pip install 'clip@git+https://github.com/openai/CLIP.git'
+          pip install mypy ruff
+      
+      - name: Run pytest
+        run: pytest tests/test_frame_extractor.py
