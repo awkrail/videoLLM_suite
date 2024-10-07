@@ -24,12 +24,14 @@ jobs:
           sudo apt-get update
           sudo apt-get upgrade
           sudo apt-get install -y ffmpeg
+      
       - name: Run dependency libraries
         run: |
           pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
           pip install ftfy regex tqdm
           pip install 'clip@git+https://github.com/openai/CLIP.git'
           pip install mypy ruff
+      
       - name: Run mypy
         run: mypy firefly
 
