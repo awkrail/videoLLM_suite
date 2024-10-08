@@ -1,3 +1,12 @@
+import torch
+
+from firefly.vision.frame_extractor.config import VideoExtractorConfig
+
 class VideoFrame:
-    def __init__(self):
-        pass
+    def __init__(
+        self,
+        config: VideoExtractorConfig,
+        frames: torch.Tensor,
+        ):
+        self.config: VideoExtractorConfig = config
+        self.frames: torch.Tensor = frames

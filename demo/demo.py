@@ -1,14 +1,15 @@
 import argparse
 
-from firefly.vision.frame_extractor import VideoFrameExtractor
-from firefly.vision.video_frame import VideoFrame
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from firefly.vision.frame_extractor.frame_extractor import VideoFrameExtractor
+from firefly.vision.frame_extractor.video_frame import VideoFrame
 
 def main(input_path: str):
     fps: float = 1.0
-    width: int = 224
-    height: int = 224
-
-    video_frame_extractor: VideoFrameExtractor = VideoFrameExtractor(fps, width, height)
+    video_frame_extractor: VideoFrameExtractor = VideoFrameExtractor(fps)
     video_frames: VideoFrame = video_frame_extractor.extract_frames(input_path)
 
 if __name__ == '__main__':

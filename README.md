@@ -7,3 +7,14 @@ Yet another multimodal video feature extractor
 - multi GPU: multiple GPU supports
 - multilingual: english, japanese VLM backbones
 - synchronization: same-dimensional audio-visual feature (sequence length should be same)
+
+# Test
+```
+pytest tests
+```
+
+# Mypy + Ruff
+```
+mypy firefly
+ruff check firefly
+```

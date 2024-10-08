@@ -29,4 +29,4 @@ jobs:
           pip install pytest
       
       - name: Run pytest
-        run: pytest tests/test_frame_extractor.py
+        run: pytest tests
