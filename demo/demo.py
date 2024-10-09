@@ -3,14 +3,19 @@ import argparse
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import torch
 
 from firefly.vision.frame_extractor.frame_extractor import VideoFrameExtractor
-from firefly.vision.frame_extractor.video_frame import VideoFrame
+from firefly.vision.vision_encoder.clip import CLIPVisionEncoder
 
 def main(input_path: str):
     fps: float = 1.0
-    video_frame_extractor: VideoFrameExtractor = VideoFrameExtractor(fps)
-    video_frames: VideoFrame = video_frame_extractor.extract_frames(input_path)
+    video_frame_extractor = VideoFrameExtractor(fps)
+    video_frames = video_frame_extractor.extract_frames(input_path)
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    vision_encoder = CLIPVisionEncoder(model_path='ViT-B/32', device=device)
+    frame_features = vision_encoder.extract_feature(video_frames)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

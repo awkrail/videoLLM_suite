@@ -10,3 +10,6 @@ class VideoFrame:
         ):
         self.config: VideoExtractorConfig = config
         self.frames: torch.Tensor = frames
+    
+    def __len__(self):
+        return len(self.frames)
