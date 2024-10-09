@@ -1,6 +1,6 @@
 import torch
 
-from firefly.vision.frame_extractor.config import VideoExtractorConfig
+from firefly.frame_extractor.config import VideoExtractorConfig
 
 class VideoFrame:
     def __init__(

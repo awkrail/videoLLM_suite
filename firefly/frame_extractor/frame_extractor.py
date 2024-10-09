@@ -5,8 +5,8 @@ import numpy as np
 
 from typing import Optional
 
-from firefly.vision.frame_extractor.video_frame import VideoFrame
-from firefly.vision.frame_extractor.config import VideoExtractorConfig
+from firefly.frame_extractor.video_frame import VideoFrame
+from firefly.frame_extractor.config import VideoExtractorConfig
 
 
 class VideoFrameExtractor:

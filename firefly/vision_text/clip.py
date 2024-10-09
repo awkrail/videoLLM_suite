@@ -5,7 +5,7 @@ import math
 from torchvision.transforms import Compose, Resize, CenterCrop, Normalize, InterpolationMode
 from typing import Optional
 
-from firefly.vision.frame_extractor.video_frame import VideoFrame
+from firefly.frame_extractor.video_frame import VideoFrame
 
 def _divide(x):
     return x / 255.0
@@ -18,7 +18,7 @@ def _transform(n_px):
         Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
     ])
 
-class CLIPVisionEncoder:
+class CLIPEncoder:
     def __init__(
         self,
         device: str,
@@ -33,7 +33,7 @@ class CLIPVisionEncoder:
             self._transforms = Compose([transforms, self._transforms])
 
     @torch.no_grad()
-    def extract_feature(
+    def encode_video(
         self,
         video_frames: VideoFrame,
         bsz: int = 60) -> torch.Tensor:

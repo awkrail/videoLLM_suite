@@ -5,8 +5,8 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import torch
 
-from firefly.vision.frame_extractor.frame_extractor import VideoFrameExtractor
-from firefly.vision.vision_encoder.clip import CLIPVisionEncoder
+from firefly.frame_extractor.frame_extractor import VideoFrameExtractor
+from firefly.vision_text.clip import CLIPEncoder
 
 def main(input_path: str):
     fps: float = 1.0
@@ -14,8 +14,8 @@ def main(input_path: str):
     video_frames = video_frame_extractor.extract_frames(input_path)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    vision_encoder = CLIPVisionEncoder(model_path='ViT-B/32', device=device)
-    frame_features = vision_encoder.extract_feature(video_frames)
+    clip_encoder = CLIPEncoder(model_path='ViT-B/32', device=device)
+    frame_features = clip_encoder.encode_video(video_frames)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
