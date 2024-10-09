@@ -14,8 +14,11 @@ def main(input_path: str):
     video_frames = video_frame_extractor.extract_frames(input_path)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    clip_encoder = CLIPEncoder(model_path='ViT-B/32', device=device)
-    frame_features = clip_encoder.encode_video(video_frames)
+    # clip_encoder = CLIPEncoder(model_path='ViT-B/32', device=device)
+    # frame_features = clip_encoder.encode_video(video_frames)
+
+    clip_encoder = CLIPEncoder(model_path='line-corporation/clip-japanese-base', device=device)
+    clip_encoder.encode_video(video_frames)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

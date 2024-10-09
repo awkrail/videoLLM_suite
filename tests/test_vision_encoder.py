@@ -8,12 +8,26 @@ import torch
 from firefly.frame_extractor.video_frame import VideoFrame
 from firefly.vision_text.clip import CLIPEncoder
 
+def test_non_existing_models():
+    model_path = 'Unavailable'
+    with pytest.raises(ValueError):
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        vision_encoder = CLIPEncoder(model_path=model_path, device=device)
 
-def test_frame_length():
+def test_frame_length_openai_clip():
     length = random.randint(1, 300)
     mock_video_frames = VideoFrame(config=None, frames=torch.ones((length, 3, 256, 256)))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     vision_encoder = CLIPEncoder(model_path='ViT-B/32', device=device)
+    out = vision_encoder.encode_video(mock_video_frames)
+    assert out.shape[0] == length, f"output vector should be same length, expected={length} but got {out.shape[0]}"
+
+def test_frame_length_lycorp_clip():
+    length = random.randint(1, 300)
+    mock_video_frames = VideoFrame(config=None, frames=torch.ones((length, 3, 256, 256)))
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    vision_encoder = CLIPEncoder(model_path='line-corporation/clip-japanese-base', device=device)
     out = vision_encoder.encode_video(mock_video_frames)
     assert out.shape[0] == length, f"output vector should be same length, expected={length} but got {out.shape[0]}"

@@ -27,6 +27,7 @@ jobs:
           pip install ftfy regex tqdm
           pip install 'clip@git+https://github.com/openai/CLIP.git'
           pip install ffmpeg-python pytest
+          pip install pillow sentencepiece transformers timm==1.0.9
           pip uninstall -y numpy
           pip install numpy==1.23.5
       
