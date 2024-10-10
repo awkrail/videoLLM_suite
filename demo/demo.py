@@ -18,7 +18,9 @@ def main(input_path: str):
     # frame_features = clip_encoder.encode_video(video_frames)
 
     clip_encoder = CLIPEncoder(model_path='line-corporation/clip-japanese-base', device=device)
-    clip_encoder.encode_video(video_frames)
+    video_features = clip_encoder.encode_video(video_frames)
+    text_features = clip_encoder.encode_text(["犬", "猫", "象", "男性"])
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -4,7 +4,7 @@ import math
 
 from torchvision.transforms import Compose, Resize, CenterCrop, Normalize, InterpolationMode
 from transformers import AutoModel, AutoTokenizer
-from typing import Optional
+from typing import Optional, List
 
 from firefly.frame_extractor.video_frame import VideoFrame
 from firefly.model_config import ModelConfigDict, _available_models
@@ -38,10 +38,10 @@ class CLIPEncoder:
         model_path: str,
         preprocess_transforms: Optional[Compose] = None):
         self._model_path: str = model_path
+        self._device: str = device
         self._available_models: ModelConfigDict = _available_models()
         if model_path not in self._available_models:
             raise ValueError(f'{model_path} are not in {self._available_models}.')
-        self._device: str = device
 
         clip_extractor, tokenizer, transforms = self._initialize_model()
         self._clip_extractor = clip_extractor
@@ -93,3 +93,15 @@ class CLIPEncoder:
             video_features.append(_video_features)
         video_feature_tensor = torch.cat(video_features, dim=0)
         return video_feature_tensor
+    
+    @torch.no_grad()
+    def encode_text(
+        self,
+        sentences: List[str]) -> torch.Tensor:
+        text = self._tokenizer(sentences).to(self._device)
+        if self._available_models[self._model_path].owner == 'openai':
+            return self._clip_extractor.encode_text(text)
+        elif self._available_models[self._model_path].model_path == 'line-corporation/clip-japanese-base':
+            return self._clip_extractor.get_text_features(**text)
+        else:
+            raise NotImplementedError(f'{self._model_path} is not implemented now. Choose model from {self._available_models}')
