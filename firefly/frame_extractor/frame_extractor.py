@@ -16,6 +16,13 @@ class AudioFrameExtractor:
         win_sec: float,
         hop_sec: float,
         sample_rate: int):
+        if win_sec < 0:
+            raise ValueError(f'win_sec should be more than 0, but got {win_sec}.')
+        if hop_sec < 0:
+            raise ValueError(f'hop_sec should be more than 0, but got {hop_sec}.')
+        if sample_rate < 0:
+            raise ValueError(f'sample_rate should be more than 0, but got {sample_rate}')
+
         self.win_sec = win_sec
         self.hop_sec = hop_sec
         self.sample_rate = sample_rate
@@ -28,8 +35,22 @@ class AudioFrameExtractor:
         if resample and self.sample_rate != original_sample_rate:
             resampler = torchaudio.transforms.Resample(original_sample_rate, self.sample_rate)
             audio_time_series = resampler(audio_time_series)        
-        import ipdb; ipdb.set_trace()
         return audio_time_series
+    
+    def _sliding_window(
+        self,
+        audio_time_series: torch.Tensor) -> torch.Tensor:
+        if audio_time_series.ndim != 1:
+            raise ValueError('Input audio tensor must be 1D tensor.')
+
+        win_length = int(self.win_sec * self.sample_rate)
+        hop_length = int(self.hop_sec * self.sample_rate)
+
+        half_win = win_length // 2
+        padded_audio = torch.nn.functional.pad(audio_time_series, (half_win, half_win), mode="constant", value=0)
+        windows = padded_audio.unfold(0, win_length, hop_length)
+        return windows
+
 
     def extract_frames(
         self,
@@ -44,7 +65,8 @@ class AudioFrameExtractor:
                                       win_sec=self.win_sec,
                                       hop_sec=self.hop_sec)
         
-        return AudioFrame(config=config, frames=audio_time_series)
+        audio_frames = self._sliding_window(audio_time_series[0])
+        return AudioFrame(config=config, frames=audio_frames)
 
 
 class VideoFrameExtractor:
