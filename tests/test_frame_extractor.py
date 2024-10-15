@@ -8,6 +8,14 @@ from firefly.frame_extractor.frame_extractor import VideoFrameExtractor
 """
 AudioFrameExtractor
 """
+def test_audio_time_series_dimension():
+    sample_rate = 44100
+    input_path = 'tests/audio/input.wav'
+    duration = 150
+
+    audio_frame_extractor = AudioFrameExtractor(sample_rate=sample_rate, win_sec=2, hop_sec=2)
+    audio_time_series = audio_frame_extractor._read_audio(input_path)
+    assert audio_time_series.shape[1] == int(sample_rate * duration)
 
 
 """
