@@ -4,7 +4,7 @@ import torch
 import torchaudio
 import numpy as np
 
-from typing import Optional, Tuple
+from typing import Optional
 
 from firefly.frame_extractor.frame import VideoFrame, AudioFrame
 from firefly.frame_extractor.config import VideoExtractorConfig, AudioExtractorConfig
@@ -26,7 +26,7 @@ class AudioFrameExtractor:
         resample: bool) -> torch.Tensor:
         audio_time_series, original_sample_rate = torchaudio.load(input_path)
         if resample and self.sample_rate != original_sample_rate:
-            resampler = T.Resample(original_sample_rate, self.sample_rate)
+            resampler = torchaudio.transforms.Resample(original_sample_rate, self.sample_rate)
             audio_time_series = resampler(audio_time_series)        
         return audio_time_series
 

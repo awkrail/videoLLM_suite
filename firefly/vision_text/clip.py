@@ -29,9 +29,6 @@ def _clyp_transform(n_px):
     ])
 
 class CLIPEncoder:
-    """
-    OpenAI CLIP Encoder.
-    """
     def __init__(
         self,
         device: str,

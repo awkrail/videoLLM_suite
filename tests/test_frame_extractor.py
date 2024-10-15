@@ -5,6 +5,14 @@ import pytest
 
 from firefly.frame_extractor.frame_extractor import VideoFrameExtractor
 
+"""
+AudioFrameExtractor
+"""
+
+
+"""
+VideoFrameExtractor
+"""
 def test_fps_larger_than_original_one():
     fps: float = 1e5
     input_path = 'tests/videos/input.mp4'
