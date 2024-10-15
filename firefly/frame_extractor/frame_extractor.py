@@ -1,12 +1,49 @@
 import os
 import ffmpeg
 import torch
+import torchaudio
 import numpy as np
 
-from typing import Optional
+from typing import Optional, Tuple
 
-from firefly.frame_extractor.video_frame import VideoFrame
-from firefly.frame_extractor.config import VideoExtractorConfig
+from firefly.frame_extractor.frame import VideoFrame, AudioFrame
+from firefly.frame_extractor.config import VideoExtractorConfig, AudioExtractorConfig
+
+
+class AudioFrameExtractor:
+    def __init__(
+        self,
+        win_sec: float,
+        hop_sec: float,
+        sample_rate: int):
+        self.win_sec = win_sec
+        self.hop_sec = hop_sec
+        self.sample_rate = sample_rate
+
+    def _read_audio(
+        self,
+        input_path: str,
+        resample: bool) -> torch.Tensor:
+        audio_time_series, original_sample_rate = torchaudio.load(input_path)
+        if resample and self.sample_rate != original_sample_rate:
+            resampler = T.Resample(original_sample_rate, self.sample_rate)
+            audio_time_series = resampler(audio_time_series)        
+        return audio_time_series
+
+    def extract_frames(
+        self,
+        input_path: str,
+        resample: bool = True) -> AudioFrame:
+        if not os.path.exists(input_path):
+            raise OSError(f'{input_path} does not exist.')
+
+        audio_time_series = self._read_audio(input_path, resample=resample)
+
+        config = AudioExtractorConfig(sample_rate=self.sample_rate, 
+                                      win_sec=self.win_sec,
+                                      hop_sec=self.hop_sec)
+        
+        return AudioFrame(config=config, frames=audio_time_series)
 
 
 class VideoFrameExtractor:

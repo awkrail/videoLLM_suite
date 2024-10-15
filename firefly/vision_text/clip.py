@@ -6,7 +6,7 @@ from torchvision.transforms import Compose, Resize, CenterCrop, Normalize, Inter
 from transformers import AutoModel, AutoTokenizer
 from typing import Optional, List
 
-from firefly.frame_extractor.video_frame import VideoFrame
+from firefly.frame_extractor.frame import VideoFrame
 from firefly.model_config import ModelConfigDict, _available_models
 
 def _divide(x):
