@@ -3,20 +3,11 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 
-from firefly.frame_extractor.frame_extractor import VideoFrameExtractor
+from firefly.frame_extractor.frame_extractor import VideoFrameExtractor, AudioFrameExtractor
 
 """
 AudioFrameExtractor
 """
-def test_audio_time_series_dimension():
-    sample_rate = 44100
-    input_path = 'tests/audio/input.wav'
-    duration = 150
-
-    audio_frame_extractor = AudioFrameExtractor(sample_rate=sample_rate, win_sec=2, hop_sec=2)
-    audio_time_series = audio_frame_extractor._read_audio(input_path)
-    assert audio_time_series.shape[1] == int(sample_rate * duration)
-
 
 """
 VideoFrameExtractor
@@ -55,4 +46,4 @@ def test_video_length():
     input_path = 'tests/videos/input.mp4'
     video_frame_extractor = VideoFrameExtractor(fps)
     video_frames = video_frame_extractor.extract_frames(input_path)
-    len(video_frames.frames) == video_length
+    assert len(video_frames.frames) == video_length

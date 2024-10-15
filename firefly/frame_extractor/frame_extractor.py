@@ -28,6 +28,7 @@ class AudioFrameExtractor:
         if resample and self.sample_rate != original_sample_rate:
             resampler = torchaudio.transforms.Resample(original_sample_rate, self.sample_rate)
             audio_time_series = resampler(audio_time_series)        
+        import ipdb; ipdb.set_trace()
         return audio_time_series
 
     def extract_frames(
