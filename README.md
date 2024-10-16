@@ -25,15 +25,16 @@ Audio-only
 - [ ] : VGGish
 
 Image-text
-- [ ] : CLIP
-- [ ] : Japanese CLIP
+- [x] : CLIP
+- [x] : Japanese CLIP
 
 Video-text
 - [ ] : CLIP4Clip
 - [ ] : InternVideo
 
 Audio-text
-- [ ] : CLAP
+- [x] : CLAP (Microsoft)
+- [ ] : CLAP (LAION)
 
 # Test
 ```

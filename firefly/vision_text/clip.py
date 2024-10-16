@@ -7,7 +7,7 @@ from transformers import AutoModel, AutoTokenizer
 from typing import Optional, List
 
 from firefly.frame_extractor.frame import VideoFrame
-from firefly.model_config import ModelConfigDict, _available_models
+from firefly.model_config import ModelConfigDict, _available_clip_models
 
 def _divide(x):
     return x / 255.0
@@ -36,7 +36,7 @@ class CLIPEncoder:
         preprocess_transforms: Optional[Compose] = None):
         self._model_path: str = model_path
         self._device: str = device
-        self._available_models: ModelConfigDict = _available_models()
+        self._available_models: ModelConfigDict = _available_clip_models()
         if model_path not in self._available_models:
             raise ValueError(f'{model_path} are not in {self._available_models}.')
 

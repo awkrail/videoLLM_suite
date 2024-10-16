@@ -26,7 +26,7 @@ class ModelConfigDict:
         return self.model_configs.get(key, ModelConfig())
 
 
-def _available_models() -> ModelConfigDict:
+def _available_clip_models() -> ModelConfigDict:
     model_configs: Dict[str, ModelConfig] = {}
     
     for openai_model in clip.available_models():
@@ -40,5 +40,20 @@ def _available_models() -> ModelConfigDict:
     for m in other_models:
         model_path, owner, size = m
         model_configs[model_path] = ModelConfig(model_path=model_path, owner=owner, size=size)
+
+    return ModelConfigDict(model_configs)
+
+
+def _available_clap_models() -> ModelConfigDict:
+    model_configs: Dict[str, ModelConfig] = {}
+    
+    other_models: List[Tuple[str, str]] = [
+        ('2022', 'microsoft'),
+        ('2023', 'microsoft'),
+    ]
+
+    for m in other_models:
+        model_path, owner = m
+        model_configs[model_path] = ModelConfig(model_path=model_path, owner=owner)
 
     return ModelConfigDict(model_configs)
