@@ -10,7 +10,7 @@ Yet another multimodal video feature extractor.
 
 # Models
 ### Vision-only
-- [ ] : TIMM models (e.g., ViT, EVA, Swin, DINO, etc)
+- [x] : TIMM models
 
 Action
 - [ ] : I3D

@@ -1,4 +1,5 @@
 import clip
+import timm
 
 from typing import Dict, List, Tuple
 from dataclasses import dataclass
@@ -56,4 +57,12 @@ def _available_clap_models() -> ModelConfigDict:
         model_path, owner = m
         model_configs[model_path] = ModelConfig(model_path=model_path, owner=owner)
 
+    return ModelConfigDict(model_configs)
+
+def _available_timm_models() -> ModelConfigDict:
+    model_configs: Dict[str, ModelConfig] = {}
+    model_names = timm.list_models()
+    for model_name in model_names:
+        model_configs[model_name] = ModelConfig(model_path=model_name, owner='huggingface')
+    
     return ModelConfigDict(model_configs)
