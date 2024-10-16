@@ -24,7 +24,7 @@ jobs:
       - name: Run dependency libraries
         run: |
           pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
-          pip install ftfy regex tqdm
+          pip install ftfy regex tqdm msclap
           pip install 'clip@git+https://github.com/openai/CLIP.git'
           pip install pillow requests sentencepiece transformers timm
           pip install ffmpeg-python mypy ruff
