@@ -3,12 +3,13 @@ import torch
 
 from typing import List
 
+from firefly.base_encoder import BaseAudioTextEncoder
 from firefly.frame_extractor.frame import AudioFrame
 from firefly.model_config import ModelConfigDict, _available_clap_models
 
 from msclap import CLAP
 
-class CLAPEncoder:
+class CLAPEncoder(BaseAudioTextEncoder):
     def __init__(
         self,
         device: str,
@@ -33,13 +34,13 @@ class CLAPEncoder:
     def encode_audio(
         self,
         audio_frames: AudioFrame,
-        bsz: int = 60) -> torch.Tensor:
+        batch_size: int = 60) -> torch.Tensor:
         n_frames = len(audio_frames)
-        n_batch = int(math.ceil(n_frames / bsz))
+        n_batch = int(math.ceil(n_frames / batch_size))
         audio_features = []
         for i in range(n_batch):
-            st_idx = i * bsz
-            ed_idx = (i+1) * bsz
+            st_idx = i * batch_size
+            ed_idx = (i+1) * batch_size
             _input_audio = audio_frames.frames[st_idx:ed_idx].to(self._device)
             _audio_features = self._clap.clap.audio_encoder.base(_input_audio)["embedding"]
             _audio_features = self._clap.clap.audio_encoder.projection(_audio_features)            

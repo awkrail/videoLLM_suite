@@ -5,10 +5,11 @@ import math
 from torchvision.transforms import Compose
 from typing import Optional
 
+from firefly.base_encoder import BaseVisionEncoder
 from firefly.frame_extractor.frame import VideoFrame
 from firefly.model_config import _available_timm_models
 
-class TimmEncoder:
+class TimmEncoder(BaseVisionEncoder):
     def __init__(
         self,
         device: str,
@@ -27,14 +28,14 @@ class TimmEncoder:
     def encode_video(
         self,
         video_frames: VideoFrame,
-        bsz: int = 60) -> torch.Tensor:
+        batch_size: int = 60) -> torch.Tensor:
         preprocessed_frames = self._transforms(video_frames.frames) if self._transforms is not None else video_frames.frames
         n_frames = len(video_frames)
-        n_batch = int(math.ceil(n_frames / bsz))
+        n_batch = int(math.ceil(n_frames / batch_size))
         video_features = []
         for i in range(n_batch):
-            st_idx = i * bsz
-            ed_idx = (i+1) * bsz
+            st_idx = i * batch_size
+            ed_idx = (i+1) * batch_size
             _frames = preprocessed_frames[st_idx:ed_idx].to(self._device)
             _video_features = self._model.forward_features(_frames)
             video_features.append(_video_features)

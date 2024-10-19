@@ -6,6 +6,7 @@ from torchvision.transforms import Compose, Resize, CenterCrop, Normalize, Inter
 from transformers import AutoModel, AutoTokenizer
 from typing import Optional, List
 
+from firefly.base_encoder import BaseVisionTextEncoder
 from firefly.frame_extractor.frame import VideoFrame
 from firefly.model_config import ModelConfigDict, _available_clip_models
 
@@ -28,7 +29,7 @@ def _clyp_transform(n_px):
         Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
     ])
 
-class CLIPEncoder:
+class CLIPEncoder(BaseVisionTextEncoder):
     def __init__(
         self,
         device: str,
@@ -77,14 +78,14 @@ class CLIPEncoder:
     def encode_video(
         self,
         video_frames: VideoFrame,
-        bsz: int = 60) -> torch.Tensor:
+        batch_size: int = 60) -> torch.Tensor:
         preprocessed_frames = self._transforms(video_frames.frames)
         n_frames = len(video_frames)
-        n_batch = int(math.ceil(n_frames / bsz))
+        n_batch = int(math.ceil(n_frames / batch_size))
         video_features = []
         for i in range(n_batch):
-            st_idx = i * bsz
-            ed_idx = (i+1) * bsz
+            st_idx = i * batch_size
+            ed_idx = (i+1) * batch_size
             _preprocessed_frames = preprocessed_frames[st_idx:ed_idx].to(self._device)
             _video_features = self._encode_frames(_preprocessed_frames)
             video_features.append(_video_features)
