@@ -1,7 +1,9 @@
 import abc
 import torch
 
-from typing import Tuple
+from typing import List
+
+from firefly.frame_extractor.frame import VideoFrame, AudioFrame
 
 class BaseVisionEncoder(metaclass=abc.ABCMeta):
     @abc.abstractmethod
