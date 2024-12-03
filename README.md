@@ -1,40 +1,41 @@
-# firefly
-Yet another multimodal video feature extractor.
+# VideoLLM_suite
+VideoLLM_suite is a collection of inference-only open-source video LLMs.
 
-# Features
-- unimodal: audio-only, visual-only
-- multimodal: audio, visual, text
-- multi GPU: multiple GPU supports
-- multilingual: english, japanese VLM backbones
-- synchronization: same-dimensional audio-visual feature (sequence length should be same)
+# Usage
+Excepted.
+```python
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model = VideoLLaMA(model_path)
+model.to(device)
+
+input_path = "videos/input.mp4"
+prompt = "Describe the video for details."
+
+model.encode_video(input_path)
+sentence = model.generate(prompt)
+```
 
 # Models
-### Vision-only
-- [x] : TIMM models
-
-Action
-- [ ] : I3D
-- [ ] : Slowfast
-- [ ] : VideoMAE
-
-Optical flow
-- [ ] : RAFT
-
-Audio-only
-- [ ] : PANNs
-- [ ] : VGGish
-
-Image-text
-- [x] : CLIP
-- [x] : Japanese CLIP
-
-Video-text
-- [ ] : CLIP4Clip
-- [ ] : InternVideo
-
-Audio-text
-- [x] : CLAP (Microsoft)
-- [ ] : CLAP (LAION)
+- [ ] : video LLaMA
+- [ ] : video LLaMA 2
+- [ ] : video Chat
+- [ ] : video Chat 2
+- [ ] : LITA
+- [ ] : Video LLaVA
+- [ ] : Chat-UniVi
+- [ ] : LaViLa
+- [ ] : MA-LMM
+- [ ] : MovieChat
+- [ ] : MovieChat+
+- [ ] : Koala
+- [ ] : LongVLM
+- [ ] : MiniGPT-video
+- [ ] : PLLaVA
+- [ ] : ST-LLM
+- [ ] : InternVideo2
+- [ ] : ViLA
+- [ ] : Video-ChatGPT
+- [ ] : TimeChat
 
 # Test
 ```
