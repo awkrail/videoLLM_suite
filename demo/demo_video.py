@@ -4,12 +4,21 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import torch
-
-from videoLLM_suite.frame_extractor import VideoPreprocessor
+import videoLLM_suite
 
 def main(input_path: str):
-    video_frame_extractor = VideoPreprocessor()
-    video_frames = video_frame_extractor(input_path)
+    model = videoLLM_suite.create_pipeline('video_llama_vicuna_7b')
+    
+    input_path = "birthday.mp4"
+    text_prompt = "Describe this video for details."
+    # end-to-end
+    sentence = model.generate(input_path, text_prompt)
+    
+    # encode & generate text
+    model.encode_video(input_path)
+    sentence = model.generate_text(text_prompt)
+
+
     import ipdb; ipdb.set_trace()
 
 if __name__ == '__main__':
