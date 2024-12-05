@@ -12,14 +12,11 @@ def main(input_path: str):
     input_path = "birthday.mp4"
     text_prompt = "Describe this video for details."
     # end-to-end
-    sentence = model.generate(input_path, text_prompt)
+    # sentence = model.generate(input_path, text_prompt)
     
     # encode & generate text
     model.encode_video(input_path)
     sentence = model.generate_text(text_prompt)
-
-
-    import ipdb; ipdb.set_trace()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
