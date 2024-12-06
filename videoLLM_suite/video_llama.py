@@ -5,10 +5,13 @@ from typing import Union, Tuple
 
 from ._builder import build_model_with_cfg
 from ._register import register_model
+from .vision_transformer import create_eva_vit_g
+
 from preprocessor import VideoPreprocessor
 from transformers import BertTokenizer
 
 __all__ = ['video_llama_vicuna_7b']
+
 
 class VideoLLaMA(nn.Module):
     """
@@ -47,8 +50,28 @@ class VideoLLaMA(nn.Module):
         super().__init__()
         self._tokenizer = self._init_tokenizer()
         self._low_resource = low_resource
-    
-    def _init_vision_encoder():
+        self._img_size = img_size
+        
+        visual_encoder, ln_vision = self._init_vision_encoder(
+            vit_model, img_size, drop_path_rate, 
+            use_grad_checkpoint, vit_precision
+        )
+        self.visual_encoder = visual_encoder
+        self.ln_vision = ln_vision
+        if freeze_vit:
+            self._freeze_vit()        
+
+    def _init_vision_encoder(self):
+        vit_encoder = create_eva_vit_g(
+            img_size=self._img_size,
+            patch_size=self._patch_size,
+            use_mean_pooling=False,
+            embed_dim=self._embed_dim,
+            depth=
+
+        )
+
+
         pass
 
     def _init_tokenizer(self):

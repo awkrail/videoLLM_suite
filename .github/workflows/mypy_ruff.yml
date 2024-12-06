@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: github-actions-1
+    runs-on: ubuntu-latest
     container: python:3.9-slim
     steps:
       - uses: actions/checkout@v3
